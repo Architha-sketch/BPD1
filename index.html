@@ -1,11 +1,210 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My First Git Project</title>
+  <meta charset="UTF-8">
+  <title>Builder Pattern Case Studies</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f9f9f9; padding:20px; }
+    h1 { text-align:center; }
+    .menu { display:flex; justify-content:center; margin-bottom:20px; flex-wrap:wrap; }
+    .menu button {
+      margin:5px; padding:10px 20px; border:none; border-radius:5px;
+      background:#4CAF50; color:white; cursor:pointer;
+    }
+    .menu button:hover { background:#388E3C; }
+    .submenu { margin:10px 0; text-align:center; display:none; }
+    .submenu button { background:#2196F3; }
+    .submenu button:hover { background:#1976D2; }
+    .card { background:white; border-radius:8px; padding:20px;
+            max-width:600px; margin:20px auto; box-shadow:0 0 5px rgba(0,0,0,0.2);
+            display:none; text-align:center; }
+    pre { background:#eee; padding:10px; border-radius:5px; }
+    .details { margin-top:15px; }
+    .back-btn {
+      margin-top:15px; padding:8px 16px; border:none; border-radius:5px;
+      background:#f44336; color:white; cursor:pointer;
+    }
+    .back-btn:hover { background:#c62828; }
+  </style>
 </head>
 <body>
-    <h1>Hello, Git!</h1>
-    <p>This is my first HTML file tracked by Git.</p>
+  <h1>Builder Pattern Demo</h1>
+
+  <!-- Main menu -->
+  <div class="menu">
+    <button onclick="openSubmenu('food-sub')">🍕 Food Delivery</button>
+    <button onclick="openSubmenu('bank-sub')">🏦 Banking</button>
+    <button onclick="openSubmenu('laptop-sub')">💻 Laptops</button>
+    <button onclick="openSubmenu('ride-sub')">🚖 Ride Booking</button>
+  </div>
+
+  <!-- Submenus -->
+  <div id="food-sub" class="submenu">
+    <button onclick="showCard('pizza')">Pizza</button>
+    <button onclick="showCard('burger')">Burger</button>
+  </div>
+
+  <div id="bank-sub" class="submenu">
+    <button onclick="showCard('loan')">Loan Application</button>
+  </div>
+
+  <div id="laptop-sub" class="submenu">
+    <button onclick="showCard('gaming-laptop')">Gaming Laptop</button>
+    <button onclick="showCard('office-laptop')">Office Laptop</button>
+  </div>
+
+  <div id="ride-sub" class="submenu">
+    <button onclick="showCard('car-ride')">Car Ride</button>
+    <button onclick="showCard('bike-ride')">Bike Ride</button>
+  </div>
+
+  <!-- Cards (main output) -->
+  <div id="pizza" class="card">
+    <h2>Pizza Order</h2><pre id="pizza-out"></pre>
+    <div class="details"><button onclick="showCard('pizza-details')">View Details</button></div>
+  </div>
+
+  <div id="burger" class="card">
+    <h2>Burger Order</h2><pre id="burger-out"></pre>
+    <div class="details"><button onclick="showCard('burger-details')">View Details</button></div>
+  </div>
+
+  <div id="loan" class="card">
+    <h2>Loan Application</h2><pre id="loan-out"></pre>
+    <div class="details"><button onclick="showCard('loan-details')">View Details</button></div>
+  </div>
+
+  <div id="gaming-laptop" class="card">
+    <h2>Gaming Laptop</h2><pre id="gaming-laptop-out"></pre>
+    <div class="details"><button onclick="showCard('gaming-laptop-details')">View Details</button></div>
+  </div>
+
+  <div id="office-laptop" class="card">
+    <h2>Office Laptop</h2><pre id="office-laptop-out"></pre>
+    <div class="details"><button onclick="showCard('office-laptop-details')">View Details</button></div>
+  </div>
+
+  <div id="car-ride" class="card">
+    <h2>Car Ride Booking</h2><pre id="car-ride-out"></pre>
+    <div class="details"><button onclick="showCard('car-ride-details')">View Details</button></div>
+  </div>
+
+  <div id="bike-ride" class="card">
+    <h2>Bike Ride Booking</h2><pre id="bike-ride-out"></pre>
+    <div class="details"><button onclick="showCard('bike-ride-details')">View Details</button></div>
+  </div>
+
+  <!-- Details Pages -->
+  <div id="pizza-details" class="card">
+    <h2>🍕 Pizza Details</h2>
+    <p>Delicious Large Pizza with Cheese and Olives.</p>
+    <p><strong>Price:</strong> ₹499</p>
+    <button class="back-btn" onclick="showCard('pizza')">⬅ Back</button>
+  </div>
+
+  <div id="burger-details" class="card">
+    <h2>🍔 Burger Details</h2>
+    <p>Juicy Chicken Patty with Cheese Slice.</p>
+    <p><strong>Price:</strong> ₹249</p>
+    <button class="back-btn" onclick="showCard('burger')">⬅ Back</button>
+  </div>
+
+  <div id="loan-details" class="card">
+    <h2>🏦 Loan Details</h2>
+    <p>Home Loan for Alice with low interest rates.</p>
+    <p><strong>Max Amount:</strong> ₹50,00,000</p>
+    <button class="back-btn" onclick="showCard('loan')">⬅ Back</button>
+  </div>
+
+  <div id="gaming-laptop-details" class="card">
+    <h2>💻 Gaming Laptop</h2>
+    <p>High-performance laptop with 16GB RAM and RTX 4060 GPU.</p>
+    <p><strong>Price:</strong> ₹1,20,000</p>
+    <button class="back-btn" onclick="showCard('gaming-laptop')">⬅ Back</button>
+  </div>
+
+  <div id="office-laptop-details" class="card">
+    <h2>💻 Office Laptop</h2>
+    <p>Reliable laptop with 8GB RAM and Integrated Graphics.</p>
+    <p><strong>Price:</strong> ₹55,000</p>
+    <button class="back-btn" onclick="showCard('office-laptop')">⬅ Back</button>
+  </div>
+
+  <div id="car-ride-details" class="card">
+    <h2>🚖 Car Ride Details</h2>
+    <p>Pickup from Airport, SUV vehicle.</p>
+    <p><strong>Price:</strong> ₹650</p>
+    <button class="back-btn" onclick="showCard('car-ride')">⬅ Back</button>
+  </div>
+
+  <div id="bike-ride-details" class="card">
+    <h2>🏍️ Bike Ride Details</h2>
+    <p>Pickup from Station, Fast bike ride.</p>
+    <p><strong>Price:</strong> ₹120</p>
+    <button class="back-btn" onclick="showCard('bike-ride')">⬅ Back</button>
+  </div>
+
+  <script>
+    // Menu handling
+    function openSubmenu(id){
+      document.querySelectorAll('.submenu').forEach(s => s.style.display='none');
+      document.querySelectorAll('.card').forEach(c => c.style.display='none');
+      document.getElementById(id).style.display='block';
+    }
+    function showCard(id){
+      document.querySelectorAll('.card').forEach(c => c.style.display='none');
+      document.getElementById(id).style.display='block';
+    }
+
+    // === Builders ===
+    class PizzaBuilder {
+      setSize(s){ this.size=s; return this; }
+      setToppings(t){ this.toppings=t; return this; }
+      build(){ return `Pizza [Size=${this.size}, Toppings=${this.toppings}]`; }
+    }
+    class BurgerBuilder {
+      setPatty(p){ this.patty=p; return this; }
+      setExtras(e){ this.extras=e; return this; }
+      build(){ return `Burger [Patty=${this.patty}, Extras=${this.extras}]`; }
+    }
+    class LoanBuilder {
+      setCustomer(n){ this.name=n; return this; }
+      setType(t){ this.type=t; return this; }
+      build(){ return `Loan [Customer=${this.name}, Type=${this.type}]`; }
+    }
+    class LaptopBuilder {
+      setRAM(r){ this.ram=r; return this; }
+      setGPU(g){ this.gpu=g; return this; }
+      build(){ return `Laptop [RAM=${this.ram}, GPU=${this.gpu}]`; }
+    }
+    class RideBuilder {
+      setPickup(p){ this.pick=p; return this; }
+      setVehicle(v){ this.vehicle=v; return this; }
+      build(){ return `Ride [Pickup=${this.pick}, Vehicle=${this.vehicle}]`; }
+    }
+
+    // === Demo objects ===
+    document.getElementById("pizza-out").textContent =
+      new PizzaBuilder().setSize("Large").setToppings("Cheese, Olives").build();
+
+    document.getElementById("burger-out").textContent =
+      new BurgerBuilder().setPatty("Chicken").setExtras("Cheese Slice").build();
+
+    document.getElementById("loan-out").textContent =
+      new LoanBuilder().setCustomer("Alice").setType("Home Loan").build();
+
+    document.getElementById("gaming-laptop-out").textContent =
+      new LaptopBuilder().setRAM("16GB").setGPU("RTX 4060").build();
+
+    document.getElementById("office-laptop-out").textContent =
+      new LaptopBuilder().setRAM("8GB").setGPU("Integrated").build();
+
+    document.getElementById("car-ride-out").textContent =
+      new RideBuilder().setPickup("Airport").setVehicle("Car - SUV").build();
+
+    document.getElementById("bike-ride-out").textContent =
+      new RideBuilder().setPickup("Station").setVehicle("Bike").build();
+  </script>
 </body>
 </html>
 
